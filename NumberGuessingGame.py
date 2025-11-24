@@ -1,47 +1,74 @@
-import numpy as np
+# calculator.py
+# Simple Calculator: Addition, Subtraction, Multiplication, Division
 
-def play_game():
-    print("\n🎮 Number Guessing Game")
+def add(a, b):
+    return a + b
 
-    print("""
-Choose difficulty:
-1. Easy    (1–50,    10 attempts)
-2. Medium  (1–100,   7 attempts)
-3. Hard    (1–200,   5 attempts)
-""")
+def subtract(a, b):
+    return a - b
 
-    choice = int(input("Select level (1/2/3): "))
+def multiply(a, b):
+    return a * b
 
-    if choice == 1:
-        max_num, attempts = 50, 10
-    elif choice == 2:
-        max_num, attempts = 100, 7
-    else:
-        max_num, attempts = 200, 5
+def divide(a, b):
+    if b == 0:
+        return "Error: Division by zero is not allowed."
+    return a / b
 
-    # Using numpy for random number
-    number = np.random.randint(1, max_num + 1)
 
-    print(f"\nI'm thinking of a number between 1 and {max_num}. Good luck!\n")
+def get_number(prompt):
+    """Safely read a number from the user."""
+    while True:
+        try:
+            value = float(input(prompt))
+            return value
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
 
-    while attempts > 0:
-        guess = int(input(f"Attempts left {attempts} → Your guess: "))
-        attempts -= 1
 
-        if guess < number:
-            print("⬆️ Too low!\n")
-        elif guess > number:
-            print("⬇️ Too high!\n")
-        else:
-            print("🎉 Correct guess! You win!")
-            return
+def show_menu():
+    print("\n====== Simple Calculator ======")
+    print("1. Addition (+)")
+    print("2. Subtraction (-)")
+    print("3. Multiplication (*)")
+    print("4. Division (/)")
+    print("5. Exit")
+    print("================================")
 
-    print(f"❌ You lost! The number was {number}.")
 
-# Game loop
-while True:
-    play_game()
-    again = input("\nPlay again? (y/n): ").lower()
-    if again != 'y':
-        print("👋 Thanks for playing!")
-        break
+def main():
+    print("🎯 Welcome to the Python Calculator!")
+
+    while True:
+        show_menu()
+        choice = input("Choose an option (1-5): ")
+
+        if choice == "5":
+            print("👋 Exiting... Thank you for using the calculator.")
+            break
+
+        if choice not in ("1", "2", "3", "4"):
+            print("Invalid choice. Please select from 1 to 5.")
+            continue
+
+        num1 = get_number("Enter first number: ")
+        num2 = get_number("Enter second number: ")
+
+        if choice == "1":
+            result = add(num1, num2)
+            op_symbol = "+"
+        elif choice == "2":
+            result = subtract(num1, num2)
+            op_symbol = "-"
+        elif choice == "3":
+            result = multiply(num1, num2)
+            op_symbol = "*"
+        else:  # choice == "4"
+            result = divide(num1, num2)
+            op_symbol = "/"
+
+        print(f"\nResult: {num1} {op_symbol} {num2} = {result}")
+
+
+if __name__ == "__main__":
+    main()
